@@ -33,6 +33,7 @@ body {
     border-radius: 14px;
     margin-bottom: 15px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    display: none; /* HIDDEN INITIALLY */
 }
 
 /* Buttons */
@@ -45,7 +46,7 @@ button {
     border-radius: 25px;
 }
 
-button:first-child {
+#yesBtn {
     background: #ff4d6d;
     color: white;
 }
@@ -53,6 +54,8 @@ button:first-child {
 #noBtn {
     background: #ccc;
     position: absolute;
+    right: 20px;
+    bottom: 20px;
 }
 
 /* Floating hearts */
@@ -74,45 +77,47 @@ button:first-child {
         opacity: 0;
     }
 }
-
-/* Mobile text size */
-@media (max-width: 480px) {
-    h1 { font-size: 22px; }
-    h2 { font-size: 18px; }
-}
 </style>
 </head>
 
 <body>
 
 <div class="card">
-    <!-- Photo -->
-    <img src="couple.jpg" alt="Us ❤️" class="photo">
+    <img src="couple.jpg" alt="Us ❤️" class="photo" id="photo">
 
-    <h2>Dear Blessie,</h2>
-    <h1>Will you be my Valentine? 💕</h1>
-    <p>— Kiran</p>
+    <h2 id="title">Dear Blessie,</h2>
+    <h1 id="question">Will you be my Valentine? 💕</h1>
+    <p id="sign">— Kiran</p>
 
-    <button onclick="yesClicked()">YES</button>
+    <button id="yesBtn" onclick="yesClicked()">YES</button>
     <button id="noBtn">NO</button>
 </div>
 
 <script>
-// NO button escape 😈
 const noBtn = document.getElementById("noBtn");
 
-noBtn.addEventListener("mouseover", moveButton);
-noBtn.addEventListener("touchstart", moveButton);
-
-function moveButton() {
+// NO button escape (desktop + mobile)
+function moveNo() {
     const x = Math.random() * 200 - 100;
     const y = Math.random() * 200 - 100;
     noBtn.style.transform = `translate(${x}px, ${y}px)`;
 }
 
-// YES click 💖
+noBtn.addEventListener("mouseover", moveNo);
+noBtn.addEventListener("click", moveNo);
+noBtn.addEventListener("touchstart", moveNo);
+
+// YES click ❤️
 function yesClicked() {
-    alert("Yayyy 💕 Blessie & Kiran are officially Valentines! ❤️");
+    document.getElementById("title").innerText = "Yayyy ❤️";
+    document.getElementById("question").innerText =
+        "Blessie & Kiran are officially Valentines 💖";
+    document.getElementById("sign").innerText = "";
+
+    document.getElementById("yesBtn").style.display = "none";
+    document.getElementById("noBtn").style.display = "none";
+
+    document.getElementById("photo").style.display = "block";
 }
 
 // Floating hearts 💕
@@ -124,11 +129,4 @@ function createHeart() {
     heart.style.animationDuration = Math.random() * 3 + 4 + "s";
     document.body.appendChild(heart);
 
-    setTimeout(() => heart.remove(), 7000);
-}
-
-setInterval(createHeart, 500);
-</script>
-
-</body>
-</html>
+    setTimeout(() => heart.remove(), 70
